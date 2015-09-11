@@ -1,0 +1,148 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/*ra
+reset css ends
+*/
+
+
+body {
+    text-align:center;
+}
+h1 {
+    font-size: 30px;
+}
+/*:-webkit-input-placeholder {
+   color: #fff;
+}*/
+.blogScreen{
+    text-align:center;
+    margin: 0 auto;
+    width: 100%;
+    min-width: 300px;
+    color: #fff;
+    height: 60vh;
+    background-image: url('background.jpg');
+    background-size: 100% 100%;
+    padding: 80px 0px;
+}
+.blogScreen form, form fieldset{
+    height: 100%
+}
+.blogScreen input{
+    width: 80%;
+    margin: 10px 50px;
+    height: 10%;
+    color: white;
+    padding: 10px;
+    font-size: 30px;
+    border: 1px solid #fff;
+    font-weight: 600;
+    background: transparent;
+}
+.blogScreen textarea{
+    width: 80%;
+    margin: 10px 50px;
+    color: white;
+    height: 68%;
+    min-height: 200px;
+    font-size: 30px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #fff;
+    font-weight: 600;
+}
+.blogScreen button{
+    width:80%;
+    margin: 10px 50px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    border: 1px solid #fff;
+    background: transparent;
+}  
+
+#search input {
+    width: 79%;
+    height: 50px;
+    padding: 10px 10%;
+    font-size: 30px;
+    font-weight: 500;
+}
+.searchResult::before {
+    content: "";
+    background-image: url('chat.png');
+    background-size: 50px 50px;
+    width: 62px;
+    height: 62px;
+    display: inline-block;
+    margin-left: 23px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    background-position: 10px;
+    float: left;
+}
+.searchResult{
+    text-align: left;
+    position: relative;
+    display: block;
+    height: 75px;
+}
+.title{
+position: absolute;left: 103px;top: 11px;}
+.title span {
+    margin: 2px 2px;
+}
+.action{
+    float: right;
+    width: 30%;
+    height: auto;
+    margin: 15px auto;
+    font-size: 20px;
+}
