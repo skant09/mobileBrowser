@@ -19,7 +19,6 @@ Blog.prototype.addBlog = function(blog) {
     description: blog.description.value,
     index: this.index++
   };
-  console.log(this);
 
   this.blogs.push(blogEntry);
   this.setBlogs();
@@ -38,7 +37,6 @@ Blog.prototype.search = function(string) {
   document.getElementById('searchResult').innerHTML = '';
 
   // find search string
-  console.log(self);
   if(self.blogs.length === 0 ){
     alert('currently there are no blogs');
     return false;
@@ -66,7 +64,6 @@ Blog.prototype.search = function(string) {
 
 
   searchResult.forEach(function(blog) {
-    console.log(blog);
     parentNode.innerHTML += '<div class="searchResult"><div class="title"><h1>' + blog.title + '</h1><p>' + blog.description + '</span></div><div class="action">' +
       '<span class="edit">EDIT</span>' +
       '<span class="delete">DELETE</span></div>';
@@ -74,7 +71,6 @@ Blog.prototype.search = function(string) {
     var lastNode = Object.keys(editNode()).length,
       _lastEditNode = editNode(),
       _lastDeleteNode = deleteNode();
-    console.log(lastNode);
 
     _lastEditNode[lastNode - 1].addEventListener('click', self.edit.bind(blog));
     _lastDeleteNode[lastNode - 1].addEventListener('click', self.delete.bind(blog));
@@ -99,4 +95,5 @@ Blog.prototype.delete = function(event) {
   });
   blogPost.blogs = blogs;
   blogPost.setBlogs();
+  location.reload();
 };
