@@ -46,13 +46,22 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-/*ra
+/*
 reset css ends
 */
 
-
+/*custome css*/
+@font-face {
+    font-family: Droid Sans;
+    src: url(DroidSans.ttf);
+}
+@font-face {
+    font-family: Open Sans;
+    src: url(OpenSans-Regular.ttf);
+}
 body {
     text-align:center;
+    font-family: Droid Sans, Open Sans;
 }
 h1 {
     font-size: 30px;

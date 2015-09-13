@@ -1,60 +1,102 @@
-function blog(){
 
-}
-function blogPost(form, blog) {
-  var blogEntry = {
-  	title: blog.title.value,
-  	description: blog.description.value
+function Blog(blog) {
+  this.index = blog.index || 0;
+  this.title = blog.title || '';
+  this.description = blog.description || '';
+
+  this.blogs = localStorage.getItem('blogs') ? JSON.parse(localStorage.getItem('blogs')) : [];
+  
+  this.setBlogs = function() {
+    localStorage.setItem('blogs', JSON.stringify(this.blogs));
   };
+}
 
-  if (localStorage.getItem("blogs") === null) {
-    localStorage.setItem("blogs", JSON.stringify([blogEntry]));
-  } else {
-    var blogs = JSON.parse(localStorage.getItem("blogs"));
-    blogs.push(blogEntry);
-    localStorage.setItem("blogs", JSON.stringify(blogs));
-  }
-  // refreshData();
+var blogPost = new Blog({});
+
+Blog.prototype.addBlog = function(blog) {
+  var blogEntry = {
+    title: blog.title.value,
+    description: blog.description.value,
+    index: this.index++
+  };
+  console.log(this);
+
+  this.blogs.push(blogEntry);
+  this.setBlogs();
+
+  blog.title.value = '';
+  blog.description.value = '';
+
   return true;
-}
+};
 
-function search(string){
-	var blogs = JSON.parse(localStorage.getItem("blogs"));
-	var searchResult = [];
-	document.getElementById('searchResult').innerHTML = '';
-	searchResult = blogs.filter(function(blog){
-		if(blog.title.indexOf(string) >= 0 || blog.description.indexOf(string) >= 0 ){
-			return blog;
-		}
-	});
-	searchResult.forEach(function(blog) {
-		document.getElementById('searchResult').innerHTML += '<div class="searchResult"><div class="title"><h1>'
-						+blog.title+'</h1><p>'+blog.description+'</span></div><div class="action">'+
-						'<span class="edit">EDIT</span><span id="delete"> DELETE</span></div>';
-		console.log(document.getElementsByClassName('edit'));
-		document.getElementsByClassName('edit').forEach(function(node){
-			node.addEventListner('click',edit(blog));	
-		});
 
-		// searchNode = searchNode[searchNode.length-1];
-		console.log(typeof(searchNode));
-		console.log(searchNode);
-		searchNode[0].addEventListner('click',edit(blog));
-		// Object.keys(searchNode).filter(function(node){
-		// 	console.log(searchNode[node]);
-		// 	if(searchNode[node].className === 'edit'){
-		// 		searchNode[node].addEventListner('click', edit(blog));
-		// 	};
-		// });
-	});
+Blog.prototype.search = function(string) {
+  var blogs = this.blogs,
+    self = this;
+  var searchResult = [];
+  document.getElementById('searchResult').innerHTML = '';
 
-}
+  // find search string
+  console.log(self);
+  if(self.blogs.length === 0 ){
+    alert('currently there are no blogs');
+    return false;
+  }
+  searchResult = self.blogs.filter(function(blog) {
+    if (blog && blog.title && blog.description) {
+      if (blog.title.indexOf(string) >= 0 || blog.description.indexOf(string) >= 0) {
+        return blog;
+      } 
+    } 
+  });
+  if(searchResult.length === 0){
+    alert('No matching results');
+    return false;
+  }
 
-function edit(blog){
-	console.log(blog);
-	var _blog = document.getElementById('Blogpost');
-	console.log(_blog.title);
-	_blog.title.innerHTML =  blog.title;
-	_blog.description.innerHTML =  blog.description;
+  //insert dom nodes for each string
+  var parentNode = document.getElementById('searchResult'),
+    editNode = function() {
+      return parentNode.getElementsByClassName('edit');
+    },
+    deleteNode = function() {
+      return parentNode.getElementsByClassName('delete');
+    };
 
-}
+
+  searchResult.forEach(function(blog) {
+    console.log(blog);
+    parentNode.innerHTML += '<div class="searchResult"><div class="title"><h1>' + blog.title + '</h1><p>' + blog.description + '</span></div><div class="action">' +
+      '<span class="edit">EDIT</span>' +
+      '<span class="delete">DELETE</span></div>';
+
+    var lastNode = Object.keys(editNode()).length,
+      _lastEditNode = editNode(),
+      _lastDeleteNode = deleteNode();
+    console.log(lastNode);
+
+    _lastEditNode[lastNode - 1].addEventListener('click', self.edit.bind(blog));
+    _lastDeleteNode[lastNode - 1].addEventListener('click', self.delete.bind(blog));
+
+  });
+
+};
+
+Blog.prototype.edit = function(blog) {
+  var _blog = document.getElementById('Blogpost');
+  _blog.title.value = this.title;
+  _blog.description.innerHTML = this.description;
+
+};
+
+Blog.prototype.delete = function(event) {
+  var self = this;
+  var blogs = blogPost.blogs.filter(function(blog) {
+    if (blog.index !== self.index) {
+      return blog;
+    }
+  });
+  blogPost.blogs = blogs;
+  blogPost.setBlogs();
+};
