@@ -155,3 +155,6 @@ position: absolute;left: 103px;top: 11px;}
     margin: 15px auto;
     font-size: 20px;
 }
+span.delete {
+    margin-left: 20px;
+}

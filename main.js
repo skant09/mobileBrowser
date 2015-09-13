@@ -60,40 +60,51 @@ Blog.prototype.search = function(string) {
     },
     deleteNode = function() {
       return parentNode.getElementsByClassName('delete');
-    };
+    },
+    lastNode = function(){
+      return Object.keys(editNode()).length;
+    }
 
 
   searchResult.forEach(function(blog) {
-    parentNode.innerHTML += '<div class="searchResult"><div class="title"><h1>' + blog.title + '</h1><p>' + blog.description + '</span></div><div class="action">' +
+    parentNode.innerHTML += '<div class="searchResult"><div class="title"><h1>' + blog.title + '</h1>'+
+      '<p>' + blog.description + '</p></div>'+
+      '<div class="action">' +
       '<span class="edit">EDIT</span>' +
       '<span class="delete">DELETE</span></div>';
 
-    var lastNode = Object.keys(editNode()).length,
-      _lastEditNode = editNode(),
+    var _lastEditNode = editNode(),
       _lastDeleteNode = deleteNode();
-
-    _lastEditNode[lastNode - 1].addEventListener('click', self.edit.bind(blog));
-    _lastDeleteNode[lastNode - 1].addEventListener('click', self.delete.bind(blog));
+    
+    Object.keys(editNode()).forEach(function(node){
+        return function(_node, blog){
+          _node.addEventListener('click', function(event){self.edit(blog)}, false);
+        }(editNode()[node], searchResult[node]);
+    });
+    Object.keys(deleteNode()).forEach(function(node){
+        return function(_node, blog){
+          _node.addEventListener('click', function(event){self.delete(blog)}, false);
+        }(deleteNode()[node], searchResult[node]);
+    });
 
   });
-
 };
 
 Blog.prototype.edit = function(blog) {
   var _blog = document.getElementById('Blogpost');
-  _blog.title.value = this.title;
-  _blog.description.innerHTML = this.description;
+  _blog.title.value = blog.title;
+  _blog.description.innerHTML = blog.description;
 
 };
 
-Blog.prototype.delete = function(event) {
+Blog.prototype.delete = function(blog) {
   var self = this;
-  var blogs = blogPost.blogs.filter(function(blog) {
-    if (blog.index !== self.index) {
+  var blogs = this.blogs.filter(function(_blog) {
+    if (blog.index !== _blog.index) {
       return blog;
     }
   });
-  blogPost.blogs = blogs;
-  blogPost.setBlogs();
+  this.blogs = blogs;
+  this.setBlogs();
   location.reload();
 };
